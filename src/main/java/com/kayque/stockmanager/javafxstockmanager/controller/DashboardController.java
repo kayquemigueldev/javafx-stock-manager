@@ -66,4 +66,23 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void abrirMovimentacoes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("Movimentacoes.fxml")
+            );
+
+            Stage stage = (Stage) labelTotalProdutos.getScene().getWindow();
+            Scene scene = new Scene(loader.load(), 900, 600);
+
+            stage.setScene(scene);
+            stage.setTitle("Stock Manager - Movimentações");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

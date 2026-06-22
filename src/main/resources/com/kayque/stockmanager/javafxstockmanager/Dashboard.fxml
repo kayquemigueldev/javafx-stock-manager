@@ -42,7 +42,8 @@
         <Button text="Usuários" maxWidth="Infinity" prefHeight="40.0"
                 style="-fx-background-color: #374151; -fx-text-fill: white; -fx-background-radius: 8;" />
 
-        <Button text="Relatórios" maxWidth="Infinity" prefHeight="40.0"
+        <Button text="Movimentações" maxWidth="Infinity" prefHeight="40.0"
+                onAction="#abrirMovimentacoes"
                 style="-fx-background-color: #374151; -fx-text-fill: white; -fx-background-radius: 8;" />
 
         <Button text="Sair" maxWidth="Infinity" prefHeight="40.0"
