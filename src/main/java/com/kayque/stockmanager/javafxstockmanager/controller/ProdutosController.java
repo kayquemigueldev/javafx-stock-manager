@@ -31,6 +31,7 @@ public class ProdutosController {
     @FXML private TableColumn<Produto, Double> colunaPreco;
     @FXML private TableColumn<Produto, Integer> colunaQuantidade;
     @FXML private TableColumn<Produto, String> colunaDescricao;
+    @FXML private TableColumn<Produto, String> colunaStatus;
 
     private Produto produtoSelecionado;
 
@@ -42,6 +43,7 @@ public class ProdutosController {
         colunaPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         colunaQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         colunaDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         carregarProdutos();
 

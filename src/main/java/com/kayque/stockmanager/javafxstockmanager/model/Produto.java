@@ -25,6 +25,19 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
+    public String getStatus() {
+
+        if (quantidade == 0) {
+            return "Sem Estoque";
+        }
+
+        if (quantidade <= 5) {
+            return "Estoque Baixo";
+        }
+
+        return "Normal";
+    }
+
     public int getId() {
         return id;
     }

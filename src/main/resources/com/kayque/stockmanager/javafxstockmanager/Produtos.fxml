@@ -66,6 +66,7 @@
                 <TableColumn fx:id="colunaPreco" text="Preço" prefWidth="120.0" />
                 <TableColumn fx:id="colunaQuantidade" text="Qtd" prefWidth="90.0" />
                 <TableColumn fx:id="colunaDescricao" text="Descrição" prefWidth="220.0" />
+                <TableColumn fx:id="colunaStatus" text="Status" prefWidth="130.0" />
             </columns>
         </TableView>
 
