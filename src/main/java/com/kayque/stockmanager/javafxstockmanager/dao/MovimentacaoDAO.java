@@ -5,6 +5,9 @@ import com.kayque.stockmanager.javafxstockmanager.model.Movimentacao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovimentacaoDAO {
 
@@ -69,4 +72,50 @@ public class MovimentacaoDAO {
             return false;
         }
     }
+
+    public List<Movimentacao> listar() {
+
+        List<Movimentacao> movimentacoes = new ArrayList<>();
+
+        String sql = """
+            SELECT m.*,
+                   p.nome AS produto_nome
+            FROM movimentacoes m
+            INNER JOIN produtos p
+            ON p.id = m.produto_id
+            ORDER BY m.data_movimentacao DESC
+            """;
+
+        try {
+
+            Connection conexao = Conexao.conectar();
+
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Movimentacao mov = new Movimentacao();
+
+                mov.setId(rs.getInt("id"));
+                mov.setProdutoId(rs.getInt("produto_id"));
+                mov.setProdutoNome(rs.getString("produto_nome"));
+                mov.setTipo(rs.getString("tipo"));
+                mov.setQuantidade(rs.getInt("quantidade"));
+
+                movimentacoes.add(mov);
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return movimentacoes;
+    }
+
 }

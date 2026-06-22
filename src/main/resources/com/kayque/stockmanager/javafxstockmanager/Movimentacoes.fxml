@@ -21,8 +21,8 @@
         </Label>
     </HBox>
 
-    <VBox layoutX="250.0" layoutY="120.0" prefWidth="400.0" spacing="15.0"
-          style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 12;">
+    <VBox layoutX="40.0" layoutY="95.0" prefWidth="820.0" spacing="12.0"
+          style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 12;">
 
         <Label text="Registrar Entrada/Saída">
             <font>
@@ -30,32 +30,54 @@
             </font>
         </Label>
 
-        <TextField fx:id="campoProdutoId"
-                   promptText="ID do produto"
-                   prefHeight="38.0"/>
+        <HBox spacing="10.0">
 
-        <ComboBox fx:id="comboTipo"
-                  promptText="Tipo de movimentação"
-                  prefHeight="38.0"
-                  maxWidth="Infinity"/>
+            <TextField fx:id="campoProdutoId"
+                       promptText="ID do produto"
+                       prefWidth="180.0"
+                       prefHeight="38.0"/>
 
-        <TextField fx:id="campoQuantidade"
-                   promptText="Quantidade"
-                   prefHeight="38.0"/>
+            <ComboBox fx:id="comboTipo"
+                      promptText="Tipo"
+                      prefWidth="180.0"
+                      prefHeight="38.0"/>
 
-        <Button text="Registrar"
-                onAction="#registrarMovimentacao"
-                prefHeight="40.0"
-                maxWidth="Infinity"
-                style="-fx-background-color: #1f2937; -fx-text-fill: white;" />
+            <TextField fx:id="campoQuantidade"
+                       promptText="Quantidade"
+                       prefWidth="150.0"
+                       prefHeight="38.0"/>
 
-        <Button text="Voltar"
-                onAction="#voltar"
-                prefHeight="40.0"
-                maxWidth="Infinity"
-                style="-fx-background-color: #6b7280; -fx-text-fill: white;" />
+        </HBox>
+
+        <HBox spacing="10.0">
+
+            <Button text="Registrar"
+                    onAction="#registrarMovimentacao"
+                    prefHeight="38.0"
+                    style="-fx-background-color: #1f2937; -fx-text-fill: white;" />
+
+            <Button text="Atualizar Histórico"
+                    onAction="#carregarHistorico"
+                    prefHeight="38.0"
+                    style="-fx-background-color: #374151; -fx-text-fill: white;" />
+
+            <Button text="Voltar"
+                    onAction="#voltar"
+                    prefHeight="38.0"
+                    style="-fx-background-color: #6b7280; -fx-text-fill: white;" />
+
+        </HBox>
 
         <Label fx:id="labelMensagem" text="" />
+
+        <TableView fx:id="tabelaMovimentacoes" prefHeight="300.0">
+            <columns>
+                <TableColumn fx:id="colunaId" text="ID" prefWidth="60.0" />
+                <TableColumn fx:id="colunaProduto" text="Produto" prefWidth="220.0" />
+                <TableColumn fx:id="colunaTipo" text="Tipo" prefWidth="120.0" />
+                <TableColumn fx:id="colunaQuantidade" text="Quantidade" prefWidth="120.0" />
+            </columns>
+        </TableView>
 
     </VBox>
 
