@@ -1,4 +1,6 @@
-package com.kayque.stockmanager.javafxstockmanager;
+package com.kayque.stockmanager.javafxstockmanager.test;
+
+import com.kayque.stockmanager.javafxstockmanager.database.Conexao;
 
 import java.sql.Connection;
 

@@ -1,4 +1,7 @@
-package com.kayque.stockmanager.javafxstockmanager;
+package com.kayque.stockmanager.javafxstockmanager.dao;
+
+import com.kayque.stockmanager.javafxstockmanager.database.Conexao;
+import com.kayque.stockmanager.javafxstockmanager.model.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

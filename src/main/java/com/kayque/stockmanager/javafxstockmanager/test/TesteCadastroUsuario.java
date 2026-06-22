@@ -1,4 +1,7 @@
-package com.kayque.stockmanager.javafxstockmanager;
+package com.kayque.stockmanager.javafxstockmanager.test;
+
+import com.kayque.stockmanager.javafxstockmanager.dao.UsuarioDAO;
+import com.kayque.stockmanager.javafxstockmanager.model.Usuario;
 
 public class TesteCadastroUsuario {
 

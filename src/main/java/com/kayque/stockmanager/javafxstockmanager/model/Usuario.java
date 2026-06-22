@@ -1,4 +1,4 @@
-package com.kayque.stockmanager.javafxstockmanager;
+package com.kayque.stockmanager.javafxstockmanager.model;
 
 public class Usuario {
 

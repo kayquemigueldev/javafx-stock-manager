@@ -1,4 +1,4 @@
-package com.kayque.stockmanager.javafxstockmanager;
+package com.kayque.stockmanager.javafxstockmanager.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
