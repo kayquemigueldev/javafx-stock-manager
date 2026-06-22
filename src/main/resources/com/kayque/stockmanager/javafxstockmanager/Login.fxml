@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0"
             xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1">
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.kayque.stockmanager.javafxstockmanager.controller.LoginController">
 
     <Pane prefHeight="600.0" prefWidth="900.0"
           style="-fx-background-color: #f4f6f8;" />
 
-    <VBox layoutX="300.0" layoutY="130.0" prefWidth="300.0" spacing="18.0"
+    <VBox layoutX="300.0" layoutY="110.0" prefWidth="300.0" spacing="18.0"
           style="-fx-background-color: white; -fx-padding: 35; -fx-background-radius: 12;">
 
         <Label text="Stock Manager">
@@ -22,12 +28,23 @@
 
         <Label text="Acesse sua conta" style="-fx-text-fill: #666;" />
 
-        <TextField promptText="Usuário" prefHeight="38.0" />
+        <TextField fx:id="campoUsuario"
+                   promptText="Usuário"
+                   prefHeight="38.0" />
 
-        <PasswordField promptText="Senha" prefHeight="38.0" />
+        <PasswordField fx:id="campoSenha"
+                       promptText="Senha"
+                       prefHeight="38.0" />
 
-        <Button text="Entrar" prefHeight="40.0" maxWidth="Infinity"
+        <Button text="Entrar"
+                prefHeight="40.0"
+                maxWidth="Infinity"
+                onAction="#entrar"
                 style="-fx-background-color: #1f2937; -fx-text-fill: white; -fx-background-radius: 8;" />
+
+        <Label fx:id="labelMensagem"
+               text=""
+               style="-fx-text-fill: #b91c1c;" />
 
     </VBox>
 

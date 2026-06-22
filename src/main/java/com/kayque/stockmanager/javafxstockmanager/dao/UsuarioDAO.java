@@ -5,11 +5,11 @@ import com.kayque.stockmanager.javafxstockmanager.model.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class UsuarioDAO {
 
     public boolean salvar(Usuario usuario) {
-
         String sql = """
                 INSERT INTO usuarios
                 (nome, usuario, senha, perfil)
@@ -17,11 +17,9 @@ public class UsuarioDAO {
                 """;
 
         try {
-
             Connection conexao = Conexao.conectar();
 
             PreparedStatement stmt = conexao.prepareStatement(sql);
-
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getUsuario());
             stmt.setString(3, usuario.getSenha());
@@ -35,10 +33,50 @@ public class UsuarioDAO {
             return true;
 
         } catch (Exception e) {
-
             e.printStackTrace();
             return false;
-
         }
+    }
+
+    public Usuario autenticar(String usuario, String senha) {
+        String sql = """
+                SELECT * FROM usuarios
+                WHERE usuario = ? AND senha = ?
+                """;
+
+        try {
+            Connection conexao = Conexao.conectar();
+
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, usuario);
+            stmt.setString(2, senha);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Usuario usuarioEncontrado = new Usuario();
+
+                usuarioEncontrado.setId(rs.getInt("id"));
+                usuarioEncontrado.setNome(rs.getString("nome"));
+                usuarioEncontrado.setUsuario(rs.getString("usuario"));
+                usuarioEncontrado.setSenha(rs.getString("senha"));
+                usuarioEncontrado.setPerfil(rs.getString("perfil"));
+
+                rs.close();
+                stmt.close();
+                conexao.close();
+
+                return usuarioEncontrado;
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
