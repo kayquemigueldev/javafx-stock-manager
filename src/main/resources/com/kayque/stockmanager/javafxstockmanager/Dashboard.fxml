@@ -36,6 +36,7 @@
         </Label>
 
         <Button text="Produtos" maxWidth="Infinity" prefHeight="40.0"
+                onAction="#abrirProdutos"
                 style="-fx-background-color: #1f2937; -fx-text-fill: white; -fx-background-radius: 8;" />
 
         <Button text="Usuários" maxWidth="Infinity" prefHeight="40.0"
