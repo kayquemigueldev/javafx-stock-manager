@@ -142,4 +142,96 @@ public class ProdutoDAO {
         }
     }
 
+    public int contarProdutos() {
+        String sql = "SELECT COUNT(*) AS total FROM produtos";
+
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int contarEstoqueBaixo() {
+        String sql = "SELECT COUNT(*) AS total FROM produtos WHERE quantidade > 0 AND quantidade <= 5";
+
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int contarSemEstoque() {
+        String sql = "SELECT COUNT(*) AS total FROM produtos WHERE quantidade = 0";
+
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public double calcularValorTotalEstoque() {
+        String sql = "SELECT SUM(preco * quantidade) AS total FROM produtos";
+
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 }

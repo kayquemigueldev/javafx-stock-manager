@@ -54,21 +54,23 @@
     <VBox layoutX="300.0" layoutY="110.0" prefWidth="540.0" spacing="20.0"
           style="-fx-background-color: white; -fx-padding: 35; -fx-background-radius: 12;">
 
-        <Label fx:id="labelBoasVindas"
-               text="Bem-vindo ao sistema!"
-               style="-fx-text-fill: #111827;">
+        <Label text="Resumo do Estoque" style="-fx-text-fill: #111827;">
             <font>
                 <Font size="28.0" />
             </font>
         </Label>
 
-        <Label text="Gerencie produtos, usuários e estoque de forma simples e organizada."
-               wrapText="true"
-               style="-fx-text-fill: #6b7280;">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
+        <Label fx:id="labelTotalProdutos"
+               text="Produtos cadastrados: 0"/>
+
+        <Label fx:id="labelEstoqueBaixo"
+               text="Produtos com estoque baixo: 0"/>
+
+        <Label fx:id="labelSemEstoque"
+               text="Produtos sem estoque: 0"/>
+
+        <Label fx:id="labelValorTotal"
+               text="Valor total em estoque: R$ 0,00"/>
 
     </VBox>
 
