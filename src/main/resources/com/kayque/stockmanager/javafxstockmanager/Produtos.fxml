@@ -90,6 +90,11 @@
                     prefHeight="38.0"
                     style="-fx-background-color: #6b7280; -fx-text-fill: white;" />
 
+            <Button text="Exportar PDF"
+                    onAction="#exportarPDF"
+                    prefHeight="38.0"
+                    style="-fx-background-color: #059669; -fx-text-fill: white;" />
+
         </HBox>
 
         <Label fx:id="labelMensagem"

@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import com.kayque.stockmanager.javafxstockmanager.util.GeradorPDF;
 
 public class ProdutosController {
 
@@ -186,5 +187,19 @@ public class ProdutosController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void exportarPDF() {
+
+        ProdutoDAO dao = new ProdutoDAO();
+
+        GeradorPDF.gerar(
+                dao.listar()
+        );
+
+        labelMensagem.setText(
+                "PDF gerado com sucesso!"
+        );
     }
 }
