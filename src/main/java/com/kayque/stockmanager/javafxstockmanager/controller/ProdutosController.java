@@ -22,6 +22,8 @@ public class ProdutosController {
     @FXML private TextField campoCategoria;
     @FXML private TextField campoPreco;
     @FXML private TextField campoQuantidade;
+    @FXML private TextField txtPesquisar;
+
     @FXML private Label labelMensagem;
 
     @FXML private TableView<Produto> tabelaProdutos;
@@ -123,9 +125,40 @@ public class ProdutosController {
     }
 
     @FXML
+    public void excluirProduto() {
+        if (produtoSelecionado == null) {
+            labelMensagem.setText("Selecione um produto.");
+            return;
+        }
+
+        ProdutoDAO dao = new ProdutoDAO();
+
+        if (dao.excluir(produtoSelecionado.getId())) {
+            labelMensagem.setText("Produto excluído com sucesso!");
+            limparCampos();
+            carregarProdutos();
+            produtoSelecionado = null;
+        } else {
+            labelMensagem.setText("Erro ao excluir produto.");
+        }
+    }
+
+    @FXML
     public void carregarProdutos() {
         ProdutoDAO dao = new ProdutoDAO();
         ObservableList<Produto> lista = FXCollections.observableArrayList(dao.listar());
+        tabelaProdutos.setItems(lista);
+    }
+
+    @FXML
+    public void pesquisarProduto() {
+        String pesquisa = txtPesquisar.getText();
+
+        ProdutoDAO dao = new ProdutoDAO();
+        ObservableList<Produto> lista = FXCollections.observableArrayList(
+                dao.buscarPorNome(pesquisa)
+        );
+
         tabelaProdutos.setItems(lista);
     }
 
@@ -154,39 +187,4 @@ public class ProdutosController {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    public void excluirProduto() {
-
-        if (produtoSelecionado == null) {
-
-            labelMensagem.setText(
-                    "Selecione um produto."
-            );
-
-            return;
-        }
-
-        ProdutoDAO dao = new ProdutoDAO();
-
-        if (dao.excluir(produtoSelecionado.getId())) {
-
-            labelMensagem.setText(
-                    "Produto excluído com sucesso!"
-            );
-
-            limparCampos();
-            carregarProdutos();
-
-            produtoSelecionado = null;
-
-        } else {
-
-            labelMensagem.setText(
-                    "Erro ao excluir produto."
-            );
-
-        }
-    }
-
 }

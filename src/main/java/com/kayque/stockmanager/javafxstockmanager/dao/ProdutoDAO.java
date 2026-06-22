@@ -234,4 +234,48 @@ public class ProdutoDAO {
         return 0;
     }
 
+    public List<Produto> buscarPorNome(String nome) {
+
+        List<Produto> produtos = new ArrayList<>();
+
+        String sql = """
+            SELECT *
+            FROM produtos
+            WHERE nome LIKE ?
+            ORDER BY nome
+            """;
+
+        try {
+
+            Connection conexao = Conexao.conectar();
+
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+
+            stmt.setString(1, "%" + nome + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Produto produto = new Produto();
+
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString("nome"));
+                produto.setPreco(rs.getDouble("preco"));
+                produto.setQuantidade(rs.getInt("quantidade"));
+
+                produtos.add(produto);
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return produtos;
+    }
+
 }

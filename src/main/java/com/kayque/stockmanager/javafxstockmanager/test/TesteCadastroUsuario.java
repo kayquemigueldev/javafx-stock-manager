@@ -8,8 +8,8 @@ public class TesteCadastroUsuario {
     public static void main(String[] args) {
 
         Usuario usuario = new Usuario(
-                "Kayque",
-                "kayque",
+                "Administrador",
+                "admin",
                 "1234",
                 "ADMIN"
         );
@@ -17,9 +17,9 @@ public class TesteCadastroUsuario {
         UsuarioDAO dao = new UsuarioDAO();
 
         if (dao.salvar(usuario)) {
-            System.out.println("Usuário cadastrado com sucesso!");
+            System.out.println("Usuário admin cadastrado com sucesso!");
         } else {
-            System.out.println("Erro ao cadastrar usuário.");
+            System.out.println("Erro ao cadastrar usuário admin.");
         }
     }
 }

@@ -10,19 +10,27 @@ import java.sql.ResultSet;
 public class UsuarioDAO {
 
     public boolean salvar(Usuario usuario) {
+
         String sql = """
-                INSERT INTO usuarios
-                (nome, usuario, senha, perfil)
-                VALUES (?, ?, ?, ?)
-                """;
+            INSERT INTO usuarios
+            (nome, usuario, senha, perfil)
+            VALUES (?, ?, ?, ?)
+            """;
 
         try {
+
             Connection conexao = Conexao.conectar();
 
             PreparedStatement stmt = conexao.prepareStatement(sql);
+
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getUsuario());
-            stmt.setString(3, usuario.getSenha());
+
+            String hash = com.kayque.stockmanager.javafxstockmanager.security.Seguranca
+                    .gerarHash(usuario.getSenha());
+
+            stmt.setString(3, hash);
+
             stmt.setString(4, usuario.getPerfil());
 
             stmt.executeUpdate();
@@ -33,48 +41,56 @@ public class UsuarioDAO {
             return true;
 
         } catch (Exception e) {
+
             e.printStackTrace();
             return false;
+
         }
     }
 
     public Usuario autenticar(String usuario, String senha) {
+
         String sql = """
-                SELECT * FROM usuarios
-                WHERE usuario = ? AND senha = ?
-                """;
+            SELECT * FROM usuarios
+            WHERE usuario = ?
+            """;
 
         try {
+
             Connection conexao = Conexao.conectar();
 
             PreparedStatement stmt = conexao.prepareStatement(sql);
+
             stmt.setString(1, usuario);
-            stmt.setString(2, senha);
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Usuario usuarioEncontrado = new Usuario();
 
-                usuarioEncontrado.setId(rs.getInt("id"));
-                usuarioEncontrado.setNome(rs.getString("nome"));
-                usuarioEncontrado.setUsuario(rs.getString("usuario"));
-                usuarioEncontrado.setSenha(rs.getString("senha"));
-                usuarioEncontrado.setPerfil(rs.getString("perfil"));
+                String senhaHash = rs.getString("senha");
 
-                rs.close();
-                stmt.close();
-                conexao.close();
+                boolean senhaCorreta =
+                        com.kayque.stockmanager.javafxstockmanager.security.Seguranca
+                                .verificarSenha(senha, senhaHash);
 
-                return usuarioEncontrado;
+                if (senhaCorreta) {
+
+                    Usuario usuarioEncontrado = new Usuario();
+
+                    usuarioEncontrado.setId(rs.getInt("id"));
+                    usuarioEncontrado.setNome(rs.getString("nome"));
+                    usuarioEncontrado.setUsuario(rs.getString("usuario"));
+                    usuarioEncontrado.setSenha(rs.getString("senha"));
+                    usuarioEncontrado.setPerfil(rs.getString("perfil"));
+
+                    return usuarioEncontrado;
+                }
             }
 
-            rs.close();
-            stmt.close();
-            conexao.close();
-
         } catch (Exception e) {
+
             e.printStackTrace();
+
         }
 
         return null;
