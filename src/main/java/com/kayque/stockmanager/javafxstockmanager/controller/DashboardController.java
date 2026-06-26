@@ -85,4 +85,23 @@ public class DashboardController {
         }
     }
 
+    @FXML
+    public void abrirUsuarios() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("Usuarios.fxml")
+            );
+
+            Stage stage = (Stage) labelTotalProdutos.getScene().getWindow();
+            Scene scene = new Scene(loader.load(), 900, 600);
+
+            stage.setScene(scene);
+            stage.setTitle("Stock Manager - Usuários");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

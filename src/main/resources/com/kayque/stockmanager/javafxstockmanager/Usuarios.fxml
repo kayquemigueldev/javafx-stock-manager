@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0"
+            prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.kayque.stockmanager.javafxstockmanager.controller.UsuariosController">
+
+    <Pane prefHeight="600.0"
+          prefWidth="900.0"
+          style="-fx-background-color:#f4f6f8;" />
+
+    <HBox prefHeight="70.0"
+          prefWidth="900.0"
+          style="-fx-background-color:#1f2937; -fx-padding:20;">
+        <Label text="Usuários"
+               style="-fx-text-fill:white;">
+            <font>
+                <Font size="24"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <VBox layoutX="35"
+          layoutY="90"
+          prefWidth="830"
+          spacing="12"
+          style="-fx-background-color:white; -fx-padding:25; -fx-background-radius:12;">
+
+        <HBox spacing="10">
+
+            <TextField fx:id="campoNome"
+                       promptText="Nome"
+                       prefWidth="170"/>
+
+            <TextField fx:id="campoUsuario"
+                       promptText="Usuário"
+                       prefWidth="170"/>
+
+            <PasswordField fx:id="campoSenha"
+                           promptText="Senha"
+                           prefWidth="170"/>
+
+            <ComboBox fx:id="comboPerfil"
+                      promptText="Perfil"
+                      prefWidth="150"/>
+
+        </HBox>
+
+        <HBox spacing="10">
+
+            <Button text="Salvar"
+                    onAction="#salvarUsuario"
+                    style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>
+
+            <Button text="Atualizar"
+                    onAction="#atualizarUsuario"
+                    style="-fx-background-color:#2563eb; -fx-text-fill:white;"/>
+
+            <Button text="Excluir"
+                    onAction="#excluirUsuario"
+                    style="-fx-background-color:#dc2626; -fx-text-fill:white;"/>
+
+            <Button text="Atualizar Lista"
+                    onAction="#carregarUsuarios"
+                    style="-fx-background-color:#374151; -fx-text-fill:white;"/>
+
+            <Button text="Voltar"
+                    onAction="#voltar"
+                    style="-fx-background-color:#6b7280; -fx-text-fill:white;"/>
+
+        </HBox>
+
+        <Label fx:id="labelMensagem"/>
+
+        <TableView fx:id="tabelaUsuarios"
+                   prefHeight="330">
+
+            <columns>
+
+                <TableColumn fx:id="colunaId"
+                             text="ID"
+                             prefWidth="70"/>
+
+                <TableColumn fx:id="colunaNome"
+                             text="Nome"
+                             prefWidth="260"/>
+
+                <TableColumn fx:id="colunaUsuario"
+                             text="Usuário"
+                             prefWidth="220"/>
+
+                <TableColumn fx:id="colunaPerfil"
+                             text="Perfil"
+                             prefWidth="180"/>
+
+            </columns>
+
+        </TableView>
+
+    </VBox>
+
+</AnchorPane>

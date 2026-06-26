@@ -40,6 +40,7 @@
                 style="-fx-background-color: #1f2937; -fx-text-fill: white; -fx-background-radius: 8;" />
 
         <Button text="Usuários" maxWidth="Infinity" prefHeight="40.0"
+                onAction="#abrirUsuarios"
                 style="-fx-background-color: #374151; -fx-text-fill: white; -fx-background-radius: 8;" />
 
         <Button text="Movimentações" maxWidth="Infinity" prefHeight="40.0"
