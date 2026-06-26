@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,8 +21,7 @@
 
     <HBox prefHeight="70.0" prefWidth="900.0"
           style="-fx-background-color: #1f2937; -fx-padding: 20;">
-        <Label text="Stock Manager"
-               style="-fx-text-fill: white;">
+        <Label text="Stock Manager" style="-fx-text-fill: white;">
             <font>
                 <Font size="24.0" />
             </font>
@@ -28,8 +31,7 @@
     <VBox layoutX="40.0" layoutY="110.0" prefWidth="220.0" spacing="15.0"
           style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 12;">
 
-        <Label text="Menu"
-               style="-fx-text-fill: #111827;">
+        <Label text="Menu" style="-fx-text-fill: #111827;">
             <font>
                 <Font size="22.0" />
             </font>
@@ -53,26 +55,40 @@
 
     </VBox>
 
-    <VBox layoutX="300.0" layoutY="110.0" prefWidth="540.0" spacing="20.0"
-          style="-fx-background-color: white; -fx-padding: 35; -fx-background-radius: 12;">
+    <VBox layoutX="300.0" layoutY="90.0" prefWidth="540.0" spacing="12.0"
+          style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 12;">
 
         <Label text="Resumo do Estoque" style="-fx-text-fill: #111827;">
             <font>
-                <Font size="28.0" />
+                <Font size="24.0" />
             </font>
         </Label>
 
-        <Label fx:id="labelTotalProdutos"
-               text="Produtos cadastrados: 0"/>
+        <Label fx:id="labelTotalProdutos" text="Produtos cadastrados: 0"/>
+        <Label fx:id="labelEstoqueBaixo" text="Produtos com estoque baixo: 0"/>
+        <Label fx:id="labelSemEstoque" text="Produtos sem estoque: 0"/>
+        <Label fx:id="labelValorTotal" text="Valor total em estoque: R$ 0,00"/>
 
-        <Label fx:id="labelEstoqueBaixo"
-               text="Produtos com estoque baixo: 0"/>
+        <HBox spacing="10.0">
 
-        <Label fx:id="labelSemEstoque"
-               text="Produtos sem estoque: 0"/>
+            <PieChart fx:id="graficoStatus"
+                      prefWidth="250.0"
+                      prefHeight="260.0"
+                      title="Status do Estoque"/>
 
-        <Label fx:id="labelValorTotal"
-               text="Valor total em estoque: R$ 0,00"/>
+            <BarChart fx:id="graficoCategorias"
+                      prefWidth="260.0"
+                      prefHeight="260.0"
+                      title="Produtos por Categoria">
+                <xAxis>
+                    <CategoryAxis label="Categoria"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Total"/>
+                </yAxis>
+            </BarChart>
+
+        </HBox>
 
     </VBox>
 

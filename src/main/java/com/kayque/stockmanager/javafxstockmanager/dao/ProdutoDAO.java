@@ -278,4 +278,35 @@ public class ProdutoDAO {
         return produtos;
     }
 
+    public java.util.Map<String, Integer> contarProdutosPorCategoria() {
+        java.util.Map<String, Integer> dados = new java.util.LinkedHashMap<>();
+
+        String sql = """
+            SELECT categoria, COUNT(*) AS total
+            FROM produtos
+            GROUP BY categoria
+            ORDER BY total DESC
+            """;
+
+        try {
+            Connection conexao = Conexao.conectar();
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                dados.put(rs.getString("categoria"), rs.getInt("total"));
+            }
+
+            rs.close();
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return dados;
+    }
+
+
 }
