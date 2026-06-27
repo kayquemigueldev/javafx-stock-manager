@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.TableCell;
 
 import java.io.File;
 
@@ -56,6 +57,29 @@ public class ProdutosController {
         colunaQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         colunaDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        colunaStatus.setCellFactory(coluna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String status, boolean empty) {
+                super.updateItem(status, empty);
+
+                if (empty || status == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                setText(status);
+
+                if (status.equals("Normal")) {
+                    setStyle("-fx-text-fill: #15803d; -fx-font-weight: bold;");
+                } else if (status.equals("Estoque Baixo")) {
+                    setStyle("-fx-text-fill: #ca8a04; -fx-font-weight: bold;");
+                } else if (status.equals("Sem Estoque")) {
+                    setStyle("-fx-text-fill: #dc2626; -fx-font-weight: bold;");
+                }
+            }
+        });
 
         carregarProdutos();
 
