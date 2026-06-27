@@ -14,8 +14,8 @@ public class ProdutoDAO {
     public boolean salvar(Produto produto) {
         String sql = """
                 INSERT INTO produtos
-                (nome, descricao, categoria, preco, quantidade)
-                VALUES (?, ?, ?, ?, ?)
+                (nome, descricao, categoria, preco, quantidade, estoque_minimo, imagem)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try {
@@ -27,6 +27,8 @@ public class ProdutoDAO {
             stmt.setString(3, produto.getCategoria());
             stmt.setDouble(4, produto.getPreco());
             stmt.setInt(5, produto.getQuantidade());
+            stmt.setInt(6, produto.getEstoqueMinimo());
+            stmt.setString(7, produto.getImagem());
 
             stmt.executeUpdate();
 
@@ -43,7 +45,6 @@ public class ProdutoDAO {
 
     public List<Produto> listar() {
         List<Produto> produtos = new ArrayList<>();
-
         String sql = "SELECT * FROM produtos ORDER BY id DESC";
 
         try {
@@ -52,16 +53,7 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Produto produto = new Produto();
-
-                produto.setId(rs.getInt("id"));
-                produto.setNome(rs.getString("nome"));
-                produto.setDescricao(rs.getString("descricao"));
-                produto.setCategoria(rs.getString("categoria"));
-                produto.setPreco(rs.getDouble("preco"));
-                produto.setQuantidade(rs.getInt("quantidade"));
-
-                produtos.add(produto);
+                produtos.add(montarProduto(rs));
             }
 
             rs.close();
@@ -76,21 +68,20 @@ public class ProdutoDAO {
     }
 
     public boolean atualizar(Produto produto) {
-
         String sql = """
-            UPDATE produtos
-            SET nome = ?,
-                descricao = ?,
-                categoria = ?,
-                preco = ?,
-                quantidade = ?
-            WHERE id = ?
-            """;
+                UPDATE produtos
+                SET nome = ?,
+                    descricao = ?,
+                    categoria = ?,
+                    preco = ?,
+                    quantidade = ?,
+                    estoque_minimo = ?,
+                    imagem = ?
+                WHERE id = ?
+                """;
 
         try {
-
             Connection conexao = Conexao.conectar();
-
             PreparedStatement stmt = conexao.prepareStatement(sql);
 
             stmt.setString(1, produto.getNome());
@@ -98,7 +89,9 @@ public class ProdutoDAO {
             stmt.setString(3, produto.getCategoria());
             stmt.setDouble(4, produto.getPreco());
             stmt.setInt(5, produto.getQuantidade());
-            stmt.setInt(6, produto.getId());
+            stmt.setInt(6, produto.getEstoqueMinimo());
+            stmt.setString(7, produto.getImagem());
+            stmt.setInt(8, produto.getId());
 
             stmt.executeUpdate();
 
@@ -108,25 +101,19 @@ public class ProdutoDAO {
             return true;
 
         } catch (Exception e) {
-
             e.printStackTrace();
             return false;
-
         }
     }
 
     public boolean excluir(int id) {
-
         String sql = "DELETE FROM produtos WHERE id = ?";
 
         try {
-
             Connection conexao = Conexao.conectar();
-
             PreparedStatement stmt = conexao.prepareStatement(sql);
 
             stmt.setInt(1, id);
-
             stmt.executeUpdate();
 
             stmt.close();
@@ -135,10 +122,8 @@ public class ProdutoDAO {
             return true;
 
         } catch (Exception e) {
-
             e.printStackTrace();
             return false;
-
         }
     }
 
@@ -151,7 +136,11 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt("total");
+                int total = rs.getInt("total");
+                rs.close();
+                stmt.close();
+                conexao.close();
+                return total;
             }
 
             rs.close();
@@ -166,7 +155,7 @@ public class ProdutoDAO {
     }
 
     public int contarEstoqueBaixo() {
-        String sql = "SELECT COUNT(*) AS total FROM produtos WHERE quantidade > 0 AND quantidade <= 5";
+        String sql = "SELECT COUNT(*) AS total FROM produtos WHERE quantidade > 0 AND quantidade <= estoque_minimo";
 
         try {
             Connection conexao = Conexao.conectar();
@@ -174,7 +163,11 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt("total");
+                int total = rs.getInt("total");
+                rs.close();
+                stmt.close();
+                conexao.close();
+                return total;
             }
 
             rs.close();
@@ -197,7 +190,11 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt("total");
+                int total = rs.getInt("total");
+                rs.close();
+                stmt.close();
+                conexao.close();
+                return total;
             }
 
             rs.close();
@@ -220,7 +217,11 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getDouble("total");
+                double total = rs.getDouble("total");
+                rs.close();
+                stmt.close();
+                conexao.close();
+                return total;
             }
 
             rs.close();
@@ -235,20 +236,17 @@ public class ProdutoDAO {
     }
 
     public List<Produto> buscarPorNome(String nome) {
-
         List<Produto> produtos = new ArrayList<>();
 
         String sql = """
-            SELECT *
-            FROM produtos
-            WHERE nome LIKE ?
-            ORDER BY nome
-            """;
+                SELECT *
+                FROM produtos
+                WHERE nome LIKE ?
+                ORDER BY nome
+                """;
 
         try {
-
             Connection conexao = Conexao.conectar();
-
             PreparedStatement stmt = conexao.prepareStatement(sql);
 
             stmt.setString(1, "%" + nome + "%");
@@ -256,15 +254,7 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-
-                Produto produto = new Produto();
-
-                produto.setId(rs.getInt("id"));
-                produto.setNome(rs.getString("nome"));
-                produto.setPreco(rs.getDouble("preco"));
-                produto.setQuantidade(rs.getInt("quantidade"));
-
-                produtos.add(produto);
+                produtos.add(montarProduto(rs));
             }
 
             rs.close();
@@ -282,11 +272,11 @@ public class ProdutoDAO {
         java.util.Map<String, Integer> dados = new java.util.LinkedHashMap<>();
 
         String sql = """
-            SELECT categoria, COUNT(*) AS total
-            FROM produtos
-            GROUP BY categoria
-            ORDER BY total DESC
-            """;
+                SELECT categoria, COUNT(*) AS total
+                FROM produtos
+                GROUP BY categoria
+                ORDER BY total DESC
+                """;
 
         try {
             Connection conexao = Conexao.conectar();
@@ -308,5 +298,18 @@ public class ProdutoDAO {
         return dados;
     }
 
+    private Produto montarProduto(ResultSet rs) throws Exception {
+        Produto produto = new Produto();
 
+        produto.setId(rs.getInt("id"));
+        produto.setNome(rs.getString("nome"));
+        produto.setDescricao(rs.getString("descricao"));
+        produto.setCategoria(rs.getString("categoria"));
+        produto.setPreco(rs.getDouble("preco"));
+        produto.setQuantidade(rs.getInt("quantidade"));
+        produto.setEstoqueMinimo(rs.getInt("estoque_minimo"));
+        produto.setImagem(rs.getString("imagem"));
+
+        return produto;
+    }
 }

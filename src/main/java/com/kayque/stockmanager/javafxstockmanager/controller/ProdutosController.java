@@ -3,6 +3,7 @@ package com.kayque.stockmanager.javafxstockmanager.controller;
 import com.kayque.stockmanager.javafxstockmanager.HelloApplication;
 import com.kayque.stockmanager.javafxstockmanager.dao.ProdutoDAO;
 import com.kayque.stockmanager.javafxstockmanager.model.Produto;
+import com.kayque.stockmanager.javafxstockmanager.util.GeradorPDF;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,8 +14,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import com.kayque.stockmanager.javafxstockmanager.util.GeradorPDF;
+
+import java.io.File;
 
 public class ProdutosController {
 
@@ -24,8 +29,10 @@ public class ProdutosController {
     @FXML private TextField campoPreco;
     @FXML private TextField campoQuantidade;
     @FXML private TextField txtPesquisar;
-
     @FXML private Label labelMensagem;
+    @FXML private TextField campoEstoqueMinimo;
+
+    @FXML private ImageView imagemProduto;
 
     @FXML private TableView<Produto> tabelaProdutos;
     @FXML private TableColumn<Produto, Integer> colunaId;
@@ -36,7 +43,9 @@ public class ProdutosController {
     @FXML private TableColumn<Produto, String> colunaDescricao;
     @FXML private TableColumn<Produto, String> colunaStatus;
 
+
     private Produto produtoSelecionado;
+    private String caminhoImagemSelecionada;
 
     @FXML
     public void initialize() {
@@ -61,8 +70,51 @@ public class ProdutosController {
                         campoCategoria.setText(novo.getCategoria());
                         campoPreco.setText(String.valueOf(novo.getPreco()));
                         campoQuantidade.setText(String.valueOf(novo.getQuantidade()));
+                        campoEstoqueMinimo.setText(String.valueOf(novo.getEstoqueMinimo()));
+
+                        caminhoImagemSelecionada = novo.getImagem();
+                        carregarImagem(caminhoImagemSelecionada);
                     }
                 });
+    }
+
+    @FXML
+    public void escolherImagem() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Escolher imagem do produto");
+
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File arquivo = fileChooser.showOpenDialog(campoNome.getScene().getWindow());
+
+        if (arquivo != null) {
+            caminhoImagemSelecionada = arquivo.getAbsolutePath();
+            carregarImagem(caminhoImagemSelecionada);
+            labelMensagem.setText("Imagem selecionada.");
+        }
+    }
+
+    private void carregarImagem(String caminho) {
+        try {
+            if (caminho == null || caminho.isEmpty()) {
+                imagemProduto.setImage(null);
+                return;
+            }
+
+            File arquivo = new File(caminho);
+
+            if (arquivo.exists()) {
+                Image imagem = new Image(arquivo.toURI().toString());
+                imagemProduto.setImage(imagem);
+            } else {
+                imagemProduto.setImage(null);
+            }
+
+        } catch (Exception e) {
+            imagemProduto.setImage(null);
+        }
     }
 
     @FXML
@@ -73,13 +125,22 @@ public class ProdutosController {
             String categoria = campoCategoria.getText();
             double preco = Double.parseDouble(campoPreco.getText());
             int quantidade = Integer.parseInt(campoQuantidade.getText());
+            int estoqueMinimo = Integer.parseInt(campoEstoqueMinimo.getText());
 
             if (nome.isEmpty() || categoria.isEmpty()) {
                 labelMensagem.setText("Preencha nome e categoria.");
                 return;
             }
 
-            Produto produto = new Produto(nome, descricao, categoria, preco, quantidade);
+            Produto produto = new Produto(
+                    nome,
+                    descricao,
+                    categoria,
+                    preco,
+                    quantidade,
+                    estoqueMinimo,
+                    caminhoImagemSelecionada
+            );
             ProdutoDAO dao = new ProdutoDAO();
 
             if (dao.salvar(produto)) {
@@ -108,6 +169,8 @@ public class ProdutosController {
             produtoSelecionado.setCategoria(campoCategoria.getText());
             produtoSelecionado.setPreco(Double.parseDouble(campoPreco.getText()));
             produtoSelecionado.setQuantidade(Integer.parseInt(campoQuantidade.getText()));
+            produtoSelecionado.setEstoqueMinimo(Integer.parseInt(campoEstoqueMinimo.getText()));
+            produtoSelecionado.setImagem(caminhoImagemSelecionada);
 
             ProdutoDAO dao = new ProdutoDAO();
 
@@ -169,6 +232,9 @@ public class ProdutosController {
         campoCategoria.clear();
         campoPreco.clear();
         campoQuantidade.clear();
+        caminhoImagemSelecionada = null;
+        imagemProduto.setImage(null);
+        campoEstoqueMinimo.clear();
     }
 
     @FXML
@@ -191,15 +257,10 @@ public class ProdutosController {
 
     @FXML
     public void exportarPDF() {
-
         ProdutoDAO dao = new ProdutoDAO();
 
-        GeradorPDF.gerar(
-                dao.listar()
-        );
+        GeradorPDF.gerar(dao.listar());
 
-        labelMensagem.setText(
-                "PDF gerado com sucesso!"
-        );
+        labelMensagem.setText("PDF gerado com sucesso!");
     }
 }
