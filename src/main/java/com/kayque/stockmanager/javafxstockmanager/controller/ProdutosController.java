@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -18,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.control.TableCell;
 
 import java.io.File;
 
@@ -29,14 +29,15 @@ public class ProdutosController {
     @FXML private TextField campoCategoria;
     @FXML private TextField campoPreco;
     @FXML private TextField campoQuantidade;
-    @FXML private TextField txtPesquisar;
-    @FXML private Label labelMensagem;
     @FXML private TextField campoEstoqueMinimo;
+    @FXML private TextField txtPesquisar;
 
+    @FXML private Label labelMensagem;
     @FXML private ImageView imagemProduto;
 
     @FXML private TableView<Produto> tabelaProdutos;
     @FXML private TableColumn<Produto, Integer> colunaId;
+    @FXML private TableColumn<Produto, String> colunaImagem;
     @FXML private TableColumn<Produto, String> colunaNome;
     @FXML private TableColumn<Produto, String> colunaCategoria;
     @FXML private TableColumn<Produto, Double> colunaPreco;
@@ -44,13 +45,13 @@ public class ProdutosController {
     @FXML private TableColumn<Produto, String> colunaDescricao;
     @FXML private TableColumn<Produto, String> colunaStatus;
 
-
     private Produto produtoSelecionado;
     private String caminhoImagemSelecionada;
 
     @FXML
     public void initialize() {
         colunaId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colunaImagem.setCellValueFactory(new PropertyValueFactory<>("imagem"));
         colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colunaCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         colunaPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
@@ -58,28 +59,8 @@ public class ProdutosController {
         colunaDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         colunaStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        colunaStatus.setCellFactory(coluna -> new TableCell<>() {
-            @Override
-            protected void updateItem(String status, boolean empty) {
-                super.updateItem(status, empty);
-
-                if (empty || status == null) {
-                    setText(null);
-                    setStyle("");
-                    return;
-                }
-
-                setText(status);
-
-                if (status.equals("Normal")) {
-                    setStyle("-fx-text-fill: #15803d; -fx-font-weight: bold;");
-                } else if (status.equals("Estoque Baixo")) {
-                    setStyle("-fx-text-fill: #ca8a04; -fx-font-weight: bold;");
-                } else if (status.equals("Sem Estoque")) {
-                    setStyle("-fx-text-fill: #dc2626; -fx-font-weight: bold;");
-                }
-            }
-        });
+        configurarColunaStatus();
+        configurarColunaImagem();
 
         carregarProdutos();
 
@@ -102,6 +83,64 @@ public class ProdutosController {
                 });
     }
 
+    private void configurarColunaStatus() {
+        colunaStatus.setCellFactory(coluna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String status, boolean empty) {
+                super.updateItem(status, empty);
+
+                if (empty || status == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                setText(status);
+
+                if (status.equals("Normal")) {
+                    setStyle("-fx-text-fill: #15803d; -fx-font-weight: bold;");
+                } else if (status.equals("Estoque Baixo")) {
+                    setStyle("-fx-text-fill: #ca8a04; -fx-font-weight: bold;");
+                } else if (status.equals("Sem Estoque")) {
+                    setStyle("-fx-text-fill: #dc2626; -fx-font-weight: bold;");
+                } else {
+                    setStyle("");
+                }
+            }
+        });
+    }
+
+    private void configurarColunaImagem() {
+        colunaImagem.setCellFactory(coluna -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            protected void updateItem(String caminhoImagem, boolean empty) {
+                super.updateItem(caminhoImagem, empty);
+
+                if (empty || caminhoImagem == null || caminhoImagem.isEmpty()) {
+                    setGraphic(null);
+                    return;
+                }
+
+                File arquivo = new File(caminhoImagem);
+
+                if (arquivo.exists()) {
+                    Image imagem = new Image(arquivo.toURI().toString());
+
+                    imageView.setImage(imagem);
+                    imageView.setFitWidth(45);
+                    imageView.setFitHeight(45);
+                    imageView.setPreserveRatio(true);
+
+                    setGraphic(imageView);
+                } else {
+                    setGraphic(null);
+                }
+            }
+        });
+    }
+
     @FXML
     public void escolherImagem() {
         FileChooser fileChooser = new FileChooser();
@@ -116,7 +155,7 @@ public class ProdutosController {
         if (arquivo != null) {
             caminhoImagemSelecionada = arquivo.getAbsolutePath();
             carregarImagem(caminhoImagemSelecionada);
-            labelMensagem.setText("Imagem selecionada.");
+            labelMensagem.setText("Imagem selecionada: " + arquivo.getName());
         }
     }
 
@@ -156,6 +195,8 @@ public class ProdutosController {
                 return;
             }
 
+            System.out.println("CAMINHO DA IMAGEM: " + caminhoImagemSelecionada);
+
             Produto produto = new Produto(
                     nome,
                     descricao,
@@ -165,6 +206,7 @@ public class ProdutosController {
                     estoqueMinimo,
                     caminhoImagemSelecionada
             );
+
             ProdutoDAO dao = new ProdutoDAO();
 
             if (dao.salvar(produto)) {
@@ -176,7 +218,7 @@ public class ProdutosController {
             }
 
         } catch (NumberFormatException e) {
-            labelMensagem.setText("Preço e quantidade devem ser números.");
+            labelMensagem.setText("Preço, quantidade e estoque mínimo devem ser números.");
         }
     }
 
@@ -243,6 +285,7 @@ public class ProdutosController {
         String pesquisa = txtPesquisar.getText();
 
         ProdutoDAO dao = new ProdutoDAO();
+
         ObservableList<Produto> lista = FXCollections.observableArrayList(
                 dao.buscarPorNome(pesquisa)
         );
@@ -256,9 +299,13 @@ public class ProdutosController {
         campoCategoria.clear();
         campoPreco.clear();
         campoQuantidade.clear();
-        caminhoImagemSelecionada = null;
-        imagemProduto.setImage(null);
         campoEstoqueMinimo.clear();
+
+        caminhoImagemSelecionada = null;
+        produtoSelecionado = null;
+        imagemProduto.setImage(null);
+
+        tabelaProdutos.getSelectionModel().clearSelection();
     }
 
     @FXML

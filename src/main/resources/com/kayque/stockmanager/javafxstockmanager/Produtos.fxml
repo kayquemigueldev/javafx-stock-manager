@@ -10,95 +10,52 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.kayque.stockmanager.javafxstockmanager.controller.ProdutosController">
 
-    <Pane prefHeight="600.0"
-          prefWidth="900.0"
-          style="-fx-background-color: #f4f6f8;" />
+    <Pane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f4f6f8;" />
 
-    <HBox prefHeight="70.0"
-          prefWidth="900.0"
-          style="-fx-background-color: #1f2937; -fx-padding: 20;">
-        <Label text="Produtos"
-               style="-fx-text-fill: white;">
+    <HBox prefHeight="70.0" prefWidth="900.0" style="-fx-background-color: #1f2937; -fx-padding: 20;">
+        <Label text="Produtos" style="-fx-text-fill: white;">
             <font>
                 <Font size="24.0"/>
             </font>
         </Label>
     </HBox>
 
-    <VBox layoutX="40.0"
-          layoutY="90.0"
-          prefWidth="820.0"
-          spacing="10.0"
+    <VBox layoutX="40.0" layoutY="90.0" prefWidth="820.0" spacing="10.0"
           style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12;">
 
-        <TextField fx:id="txtPesquisar"
-                   promptText="Pesquisar produto..."
-                   onKeyReleased="#pesquisarProduto"
-                   prefHeight="36.0"/>
+        <TextField fx:id="txtPesquisar" promptText="Pesquisar produto..."
+                   onKeyReleased="#pesquisarProduto" prefHeight="36.0"/>
 
         <HBox spacing="15.0">
-
             <VBox spacing="10.0" prefWidth="620.0">
 
                 <HBox spacing="10.0">
-                    <TextField fx:id="campoNome"
-                               promptText="Nome"
-                               prefWidth="150.0"/>
-
-                    <TextField fx:id="campoDescricao"
-                               promptText="Descrição"
-                               prefWidth="180.0"/>
-
-                    <TextField fx:id="campoCategoria"
-                               promptText="Categoria"
-                               prefWidth="130.0"/>
-
-                    <TextField fx:id="campoPreco"
-                               promptText="Preço"
-                               prefWidth="90.0"/>
-
-                    <TextField fx:id="campoQuantidade"
-                               promptText="Qtd"
-                               prefWidth="60.0"/>
-
-                    <TextField fx:id="campoEstoqueMinimo"
-                               promptText="Estoque Mín."
-                               prefWidth="90.0"/>
-
+                    <TextField fx:id="campoNome" promptText="Nome" prefWidth="150.0"/>
+                    <TextField fx:id="campoDescricao" promptText="Descrição" prefWidth="180.0"/>
+                    <TextField fx:id="campoCategoria" promptText="Categoria" prefWidth="130.0"/>
+                    <TextField fx:id="campoPreco" promptText="Preço" prefWidth="90.0"/>
+                    <TextField fx:id="campoQuantidade" promptText="Qtd" prefWidth="60.0"/>
+                    <TextField fx:id="campoEstoqueMinimo" promptText="Estoque Mín." prefWidth="90.0"/>
                 </HBox>
 
                 <HBox spacing="10.0">
-
-                    <Button text="Salvar"
-                            onAction="#salvarProduto"
-                            prefHeight="36.0"
+                    <Button text="Salvar" onAction="#salvarProduto" prefHeight="36.0"
                             style="-fx-background-color: #1f2937; -fx-text-fill: white;" />
 
-                    <Button text="Atualizar"
-                            onAction="#atualizarProduto"
-                            prefHeight="36.0"
+                    <Button text="Atualizar" onAction="#atualizarProduto" prefHeight="36.0"
                             style="-fx-background-color: #2563eb; -fx-text-fill: white;" />
 
-                    <Button text="Excluir"
-                            onAction="#excluirProduto"
-                            prefHeight="36.0"
+                    <Button text="Excluir" onAction="#excluirProduto" prefHeight="36.0"
                             style="-fx-background-color: #dc2626; -fx-text-fill: white;" />
 
-                    <Button text="Escolher Imagem"
-                            onAction="#escolherImagem"
-                            prefHeight="36.0"
+                    <Button text="Escolher Imagem" onAction="#escolherImagem" prefHeight="36.0"
                             style="-fx-background-color: #7c3aed; -fx-text-fill: white;" />
 
-                    <Button text="PDF"
-                            onAction="#exportarPDF"
-                            prefHeight="36.0"
+                    <Button text="PDF" onAction="#exportarPDF" prefHeight="36.0"
                             style="-fx-background-color: #059669; -fx-text-fill: white;" />
 
-                    <Button text="Voltar"
-                            onAction="#voltar"
-                            prefHeight="36.0"
+                    <Button text="Voltar" onAction="#voltar" prefHeight="36.0"
                             style="-fx-background-color: #6b7280; -fx-text-fill: white;" />
-
                 </HBox>
 
                 <Label fx:id="labelMensagem" text="" />
@@ -110,25 +67,21 @@
                 <ImageView fx:id="imagemProduto"
                            fitWidth="150.0"
                            fitHeight="120.0"
-                           preserveRatio="true"
-                           style="-fx-border-color: #d1d5db; -fx-border-width: 1;" />
+                           preserveRatio="true" />
             </VBox>
-
         </HBox>
 
-        <TableView fx:id="tabelaProdutos"
-                   prefHeight="300.0">
-
+        <TableView fx:id="tabelaProdutos" prefHeight="300.0">
             <columns>
-                <TableColumn fx:id="colunaId" text="ID" prefWidth="50.0" />
-                <TableColumn fx:id="colunaNome" text="Nome" prefWidth="140.0" />
-                <TableColumn fx:id="colunaCategoria" text="Categoria" prefWidth="120.0" />
-                <TableColumn fx:id="colunaPreco" text="Preço" prefWidth="90.0" />
-                <TableColumn fx:id="colunaQuantidade" text="Qtd" prefWidth="70.0" />
-                <TableColumn fx:id="colunaDescricao" text="Descrição" prefWidth="200.0" />
-                <TableColumn fx:id="colunaStatus" text="Status" prefWidth="120.0" />
+                <TableColumn fx:id="colunaId" text="ID" prefWidth="45.0" />
+                <TableColumn fx:id="colunaImagem" text="Imagem" prefWidth="80.0" />
+                <TableColumn fx:id="colunaNome" text="Nome" prefWidth="120.0" />
+                <TableColumn fx:id="colunaCategoria" text="Categoria" prefWidth="110.0" />
+                <TableColumn fx:id="colunaPreco" text="Preço" prefWidth="80.0" />
+                <TableColumn fx:id="colunaQuantidade" text="Qtd" prefWidth="60.0" />
+                <TableColumn fx:id="colunaDescricao" text="Descrição" prefWidth="180.0" />
+                <TableColumn fx:id="colunaStatus" text="Status" prefWidth="110.0" />
             </columns>
-
         </TableView>
 
     </VBox>

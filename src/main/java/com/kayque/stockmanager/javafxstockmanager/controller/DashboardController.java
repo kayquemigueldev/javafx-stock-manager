@@ -33,12 +33,12 @@ public class DashboardController {
     private void carregarMetricas() {
         ProdutoDAO dao = new ProdutoDAO();
 
-        labelTotalProdutos.setText("Produtos cadastrados: " + dao.contarProdutos());
-        labelEstoqueBaixo.setText("Produtos com estoque baixo: " + dao.contarEstoqueBaixo());
-        labelSemEstoque.setText("Produtos sem estoque: " + dao.contarSemEstoque());
+        labelTotalProdutos.setText(String.valueOf(dao.contarProdutos()));
+        labelEstoqueBaixo.setText(String.valueOf(dao.contarEstoqueBaixo()));
+        labelSemEstoque.setText(String.valueOf(dao.contarSemEstoque()));
 
         double valorTotal = dao.calcularValorTotalEstoque();
-        labelValorTotal.setText(String.format("Valor total em estoque: R$ %.2f", valorTotal));
+        labelValorTotal.setText(String.format("R$ %.2f", valorTotal));
     }
 
     private void carregarGraficos() {
