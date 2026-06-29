@@ -59,6 +59,20 @@
                 onAction="#abrirUsuarios"
                 style="-fx-background-color: #374151; -fx-text-fill: white; -fx-background-radius: 8;" />
 
+        <Button fx:id="botaoLogs"
+                text="Logs"
+                maxWidth="Infinity"
+                prefHeight="40.0"
+                onAction="#abrirLogs"
+                style="-fx-background-color: #374151; -fx-text-fill: white; -fx-background-radius: 8;" />
+
+        <Button fx:id="botaoBackup"
+                text="Backup"
+                maxWidth="Infinity"
+                prefHeight="40.0"
+                onAction="#gerarBackup"
+                style="-fx-background-color: #047857; -fx-text-fill: white; -fx-background-radius: 8;" />
+
         <Button text="Movimentações" maxWidth="Infinity" prefHeight="40.0"
                 onAction="#abrirMovimentacoes"
                 style="-fx-background-color: #374151; -fx-text-fill: white; -fx-background-radius: 8;" />

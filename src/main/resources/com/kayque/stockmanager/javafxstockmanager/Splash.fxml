@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.kayque.stockmanager.javafxstockmanager.controller.SplashController">
+
+    <AnchorPane prefHeight="600.0"
+                prefWidth="900.0"
+                style="-fx-background-color: #111827;" />
+
+    <VBox layoutX="300.0"
+          layoutY="150.0"
+          prefWidth="300.0"
+          alignment="CENTER"
+          spacing="20.0">
+
+        <ImageView fx:id="logoImage"
+                   fitWidth="120.0"
+                   fitHeight="120.0"
+                   preserveRatio="true" />
+
+        <Label text="STOCK MANAGER"
+               style="-fx-text-fill: white;">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Label>
+
+        <Label text="Carregando sistema..."
+               style="-fx-text-fill: #d1d5db;">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+
+    </VBox>
+
+</AnchorPane>

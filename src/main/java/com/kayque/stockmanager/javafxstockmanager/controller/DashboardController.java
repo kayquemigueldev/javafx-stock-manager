@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import com.kayque.stockmanager.javafxstockmanager.util.BackupBanco;
+
 
 import java.util.Map;
 
@@ -30,6 +32,8 @@ public class DashboardController {
     @FXML private Button botaoUsuarios;
     @FXML private Label labelUsuarioLogado;
     @FXML private Label labelPerfilUsuario;
+    @FXML private Button botaoLogs;
+    @FXML private Button botaoBackup;
 
     @FXML
     public void initialize() {
@@ -44,6 +48,15 @@ public class DashboardController {
         if (!SessaoUsuario.isAdmin()) {
             botaoUsuarios.setVisible(false);
             botaoUsuarios.setManaged(false);
+
+            if (!SessaoUsuario.isAdmin()) {
+
+                botaoUsuarios.setVisible(false);
+                botaoUsuarios.setManaged(false);
+
+                botaoLogs.setVisible(false);
+                botaoLogs.setManaged(false);
+            }
         }
     }
 
@@ -120,6 +133,22 @@ public class DashboardController {
     public void sair() {
         SessaoUsuario.encerrarSessao();
         trocarTela("Login.fxml", "Stock Manager - Login");
+    }
+
+    @FXML
+    public void abrirLogs() {
+        trocarTela("Logs.fxml", "Stock Manager - Logs");
+    }
+
+    @FXML
+    public void gerarBackup() {
+        boolean sucesso = BackupBanco.gerarBackup();
+
+        if (sucesso) {
+            System.out.println("Backup gerado com sucesso!");
+        } else {
+            System.out.println("Erro ao gerar backup.");
+        }
     }
 
     private void trocarTela(String arquivo, String titulo) {
