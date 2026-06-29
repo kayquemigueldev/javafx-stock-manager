@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -20,13 +21,22 @@
     <Pane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f4f6f8;" />
 
     <HBox prefHeight="70.0" prefWidth="900.0"
+          alignment="CENTER_LEFT"
+          spacing="15.0"
           style="-fx-background-color: #111827; -fx-padding: 20;">
+
+        <ImageView fx:id="logoImage"
+                   fitHeight="38.0"
+                   fitWidth="38.0"
+                   preserveRatio="true" />
+
         <Label text="Stock Manager"
                style="-fx-text-fill: white;">
             <font>
-                <Font size="24.0" />
+                <Font size="24.0"/>
             </font>
         </Label>
+
     </HBox>
 
     <VBox layoutX="35.0" layoutY="100.0" prefWidth="210.0" spacing="14.0"

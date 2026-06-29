@@ -10,8 +10,11 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.Map;
 
 public class DashboardController {
@@ -23,11 +26,23 @@ public class DashboardController {
 
     @FXML private PieChart graficoStatus;
     @FXML private BarChart<String, Number> graficoCategorias;
+    @FXML private ImageView logoImage;
 
     @FXML
     public void initialize() {
+        carregarLogo();
         carregarMetricas();
         carregarGraficos();
+    }
+
+    private void carregarLogo() {
+        URL logoUrl = HelloApplication.class.getResource(
+                "/com/kayque/stockmanager/javafxstockmanager/images/logo.png"
+        );
+
+        if (logoUrl != null && logoImage != null) {
+            logoImage.setImage(new Image(logoUrl.toExternalForm()));
+        }
     }
 
     private void carregarMetricas() {
