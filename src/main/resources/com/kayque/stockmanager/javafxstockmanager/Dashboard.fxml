@@ -71,11 +71,21 @@
 
     <VBox layoutX="270.0" layoutY="95.0" prefWidth="595.0" spacing="18.0">
 
-        <Label text="Dashboard" style="-fx-text-fill: #111827;">
-            <font>
-                <Font size="30.0" />
-            </font>
-        </Label>
+        <VBox spacing="2.0">
+            <Label text="Dashboard" style="-fx-text-fill: #111827;">
+                <font>
+                    <Font size="30.0" />
+                </font>
+            </Label>
+
+            <Label fx:id="labelUsuarioLogado"
+                   text="Usuário: "
+                   style="-fx-text-fill: #374151;" />
+
+            <Label fx:id="labelPerfilUsuario"
+                   text="Perfil: "
+                   style="-fx-text-fill: #6b7280;" />
+        </VBox>
 
         <HBox spacing="15.0">
 

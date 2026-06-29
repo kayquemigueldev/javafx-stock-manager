@@ -24,17 +24,18 @@ public class DashboardController {
     @FXML private Label labelEstoqueBaixo;
     @FXML private Label labelSemEstoque;
     @FXML private Label labelValorTotal;
-
     @FXML private PieChart graficoStatus;
     @FXML private BarChart<String, Number> graficoCategorias;
     @FXML private ImageView logoImage;
-
     @FXML private Button botaoUsuarios;
+    @FXML private Label labelUsuarioLogado;
+    @FXML private Label labelPerfilUsuario;
 
     @FXML
     public void initialize() {
         carregarLogo();
         aplicarPermissoes();
+        carregarUsuarioLogado();
         carregarMetricas();
         carregarGraficos();
     }
@@ -137,4 +138,17 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+
+    private void carregarUsuarioLogado() {
+        if (SessaoUsuario.getUsuarioLogado() != null) {
+            labelUsuarioLogado.setText(
+                    "Usuário: " + SessaoUsuario.getUsuarioLogado().getNome()
+            );
+
+            labelPerfilUsuario.setText(
+                    "Perfil: " + SessaoUsuario.getUsuarioLogado().getPerfil()
+            );
+        }
+    }
+
 }
