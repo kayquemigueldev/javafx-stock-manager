@@ -36,12 +36,15 @@ public class DashboardController {
     }
 
     private void carregarLogo() {
-        URL logoUrl = HelloApplication.class.getResource(
+
+        var url = HelloApplication.class.getResource(
                 "/com/kayque/stockmanager/javafxstockmanager/images/logo.png"
         );
 
-        if (logoUrl != null && logoImage != null) {
-            logoImage.setImage(new Image(logoUrl.toExternalForm()));
+        System.out.println("LOGO = " + url);
+
+        if (url != null) {
+            logoImage.setImage(new Image(url.toExternalForm()));
         }
     }
 

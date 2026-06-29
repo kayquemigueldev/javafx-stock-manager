@@ -24,8 +24,12 @@ public class HelloApplication extends Application {
                 "/com/kayque/stockmanager/javafxstockmanager/images/logo.png"
         );
 
+        System.out.println("LOGO APP = " + logoUrl);
+
         if (logoUrl != null) {
-            stage.getIcons().add(new Image(logoUrl.toExternalForm()));
+            stage.getIcons().add(
+                    new Image(logoUrl.toExternalForm())
+            );
         }
 
         stage.setScene(scene);
