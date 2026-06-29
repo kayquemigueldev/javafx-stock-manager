@@ -52,7 +52,10 @@
                 onAction="#abrirProdutos"
                 style="-fx-background-color: #111827; -fx-text-fill: white; -fx-background-radius: 8;" />
 
-        <Button text="Usuários" maxWidth="Infinity" prefHeight="40.0"
+        <Button fx:id="botaoUsuarios"
+                text="Usuários"
+                maxWidth="Infinity"
+                prefHeight="40.0"
                 onAction="#abrirUsuarios"
                 style="-fx-background-color: #374151; -fx-text-fill: white; -fx-background-radius: 8;" />
 

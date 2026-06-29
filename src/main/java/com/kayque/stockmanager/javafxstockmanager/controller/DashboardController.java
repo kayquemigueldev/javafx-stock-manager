@@ -2,6 +2,7 @@ package com.kayque.stockmanager.javafxstockmanager.controller;
 
 import com.kayque.stockmanager.javafxstockmanager.HelloApplication;
 import com.kayque.stockmanager.javafxstockmanager.dao.ProdutoDAO;
+import com.kayque.stockmanager.javafxstockmanager.security.SessaoUsuario;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,12 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.net.URL;
 import java.util.Map;
 
 public class DashboardController {
@@ -28,20 +29,27 @@ public class DashboardController {
     @FXML private BarChart<String, Number> graficoCategorias;
     @FXML private ImageView logoImage;
 
+    @FXML private Button botaoUsuarios;
+
     @FXML
     public void initialize() {
         carregarLogo();
+        aplicarPermissoes();
         carregarMetricas();
         carregarGraficos();
     }
 
-    private void carregarLogo() {
+    private void aplicarPermissoes() {
+        if (!SessaoUsuario.isAdmin()) {
+            botaoUsuarios.setVisible(false);
+            botaoUsuarios.setManaged(false);
+        }
+    }
 
+    private void carregarLogo() {
         var url = HelloApplication.class.getResource(
                 "/com/kayque/stockmanager/javafxstockmanager/images/logo.png"
         );
-
-        System.out.println("LOGO = " + url);
 
         if (url != null) {
             logoImage.setImage(new Image(url.toExternalForm()));
@@ -95,6 +103,10 @@ public class DashboardController {
 
     @FXML
     public void abrirUsuarios() {
+        if (!SessaoUsuario.isAdmin()) {
+            return;
+        }
+
         trocarTela("Usuarios.fxml", "Stock Manager - Usuários");
     }
 
@@ -105,6 +117,7 @@ public class DashboardController {
 
     @FXML
     public void sair() {
+        SessaoUsuario.encerrarSessao();
         trocarTela("Login.fxml", "Stock Manager - Login");
     }
 

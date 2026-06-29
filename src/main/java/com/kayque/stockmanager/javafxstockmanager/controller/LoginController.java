@@ -3,6 +3,7 @@ package com.kayque.stockmanager.javafxstockmanager.controller;
 import com.kayque.stockmanager.javafxstockmanager.HelloApplication;
 import com.kayque.stockmanager.javafxstockmanager.dao.UsuarioDAO;
 import com.kayque.stockmanager.javafxstockmanager.model.Usuario;
+import com.kayque.stockmanager.javafxstockmanager.security.SessaoUsuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,14 +14,9 @@ import javafx.stage.Stage;
 
 public class LoginController {
 
-    @FXML
-    private TextField campoUsuario;
-
-    @FXML
-    private PasswordField campoSenha;
-
-    @FXML
-    private Label labelMensagem;
+    @FXML private TextField campoUsuario;
+    @FXML private PasswordField campoSenha;
+    @FXML private Label labelMensagem;
 
     @FXML
     public void entrar() {
@@ -36,6 +32,7 @@ public class LoginController {
         Usuario usuarioLogado = dao.autenticar(usuario, senha);
 
         if (usuarioLogado != null) {
+            SessaoUsuario.iniciarSessao(usuarioLogado);
             abrirDashboard();
         } else {
             labelMensagem.setText("Usuário ou senha inválidos.");

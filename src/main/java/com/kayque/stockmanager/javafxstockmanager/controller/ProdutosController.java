@@ -19,6 +19,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import com.kayque.stockmanager.javafxstockmanager.security.SessaoUsuario;
+import javafx.scene.control.Button;
 
 import java.io.File;
 
@@ -31,10 +33,10 @@ public class ProdutosController {
     @FXML private TextField campoQuantidade;
     @FXML private TextField campoEstoqueMinimo;
     @FXML private TextField txtPesquisar;
-
+    @FXML private Button botaoExcluir;
+    @FXML private Button botaoPDF;
     @FXML private Label labelMensagem;
     @FXML private ImageView imagemProduto;
-
     @FXML private TableView<Produto> tabelaProdutos;
     @FXML private TableColumn<Produto, Integer> colunaId;
     @FXML private TableColumn<Produto, String> colunaImagem;
@@ -61,8 +63,8 @@ public class ProdutosController {
 
         configurarColunaStatus();
         configurarColunaImagem();
-
         carregarProdutos();
+        aplicarPermissoes();
 
         tabelaProdutos.getSelectionModel()
                 .selectedItemProperty()
@@ -333,5 +335,15 @@ public class ProdutosController {
         GeradorPDF.gerar(dao.listar());
 
         labelMensagem.setText("PDF gerado com sucesso!");
+    }
+
+    private void aplicarPermissoes() {
+        if (!SessaoUsuario.isAdmin()) {
+            botaoExcluir.setVisible(false);
+            botaoExcluir.setManaged(false);
+
+            botaoPDF.setVisible(false);
+            botaoPDF.setManaged(false);
+        }
     }
 }
