@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import com.kayque.stockmanager.javafxstockmanager.security.SessaoUsuario;
 import javafx.scene.control.Button;
 
+
 import java.io.File;
 
 public class ProdutosController {
@@ -46,6 +47,9 @@ public class ProdutosController {
     @FXML private TableColumn<Produto, Integer> colunaQuantidade;
     @FXML private TableColumn<Produto, String> colunaDescricao;
     @FXML private TableColumn<Produto, String> colunaStatus;
+    @FXML private Button botaoSalvar;
+    @FXML private Button botaoAtualizar;
+    @FXML private Button botaoEscolherImagem;
 
     private Produto produtoSelecionado;
     private String caminhoImagemSelecionada;
@@ -339,8 +343,17 @@ public class ProdutosController {
 
     private void aplicarPermissoes() {
         if (!SessaoUsuario.isAdmin()) {
+            botaoSalvar.setVisible(false);
+            botaoSalvar.setManaged(false);
+
+            botaoAtualizar.setVisible(false);
+            botaoAtualizar.setManaged(false);
+
             botaoExcluir.setVisible(false);
             botaoExcluir.setManaged(false);
+
+            botaoEscolherImagem.setVisible(false);
+            botaoEscolherImagem.setManaged(false);
 
             botaoPDF.setVisible(false);
             botaoPDF.setManaged(false);
