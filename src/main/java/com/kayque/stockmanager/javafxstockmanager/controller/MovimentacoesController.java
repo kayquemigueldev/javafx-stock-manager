@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import com.kayque.stockmanager.javafxstockmanager.service.LogService;
 
 public class MovimentacoesController {
 
@@ -28,6 +29,7 @@ public class MovimentacoesController {
     @FXML private TableColumn<Movimentacao, String> colunaProduto;
     @FXML private TableColumn<Movimentacao, String> colunaTipo;
     @FXML private TableColumn<Movimentacao, Integer> colunaQuantidade;
+
 
     @FXML
     public void initialize() {
@@ -58,6 +60,12 @@ public class MovimentacoesController {
 
             if (dao.registrar(movimentacao)) {
                 labelMensagem.setText("Movimentação registrada com sucesso!");
+                labelMensagem.setText("Movimentação registrada com sucesso!");
+                LogService.registrar(
+                        "Registrou movimentação " + tipo +
+                                " no produto ID " + produtoId +
+                                " - quantidade " + quantidade
+                );
                 limparCampos();
                 carregarHistorico();
             } else {
@@ -103,4 +111,7 @@ public class MovimentacoesController {
             e.printStackTrace();
         }
     }
+
+
+
 }

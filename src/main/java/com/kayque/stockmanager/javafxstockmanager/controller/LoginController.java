@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.kayque.stockmanager.javafxstockmanager.service.LogService;
 
 public class LoginController {
 
@@ -33,6 +34,7 @@ public class LoginController {
 
         if (usuarioLogado != null) {
             SessaoUsuario.iniciarSessao(usuarioLogado);
+            LogService.registrar("Login realizado");
             abrirDashboard();
         } else {
             labelMensagem.setText("Usuário ou senha inválidos.");

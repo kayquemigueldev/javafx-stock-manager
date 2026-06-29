@@ -21,6 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import com.kayque.stockmanager.javafxstockmanager.security.SessaoUsuario;
 import javafx.scene.control.Button;
+import com.kayque.stockmanager.javafxstockmanager.service.LogService;
 
 
 import java.io.File;
@@ -217,6 +218,7 @@ public class ProdutosController {
 
             if (dao.salvar(produto)) {
                 labelMensagem.setText("Produto salvo com sucesso!");
+                LogService.registrar("Cadastrou produto: " + nome);
                 limparCampos();
                 carregarProdutos();
             } else {
@@ -248,6 +250,7 @@ public class ProdutosController {
 
             if (dao.atualizar(produtoSelecionado)) {
                 labelMensagem.setText("Produto atualizado com sucesso!");
+                LogService.registrar("Atualizou produto: " + produtoSelecionado.getNome());
                 limparCampos();
                 carregarProdutos();
                 produtoSelecionado = null;
@@ -271,6 +274,7 @@ public class ProdutosController {
 
         if (dao.excluir(produtoSelecionado.getId())) {
             labelMensagem.setText("Produto excluído com sucesso!");
+            LogService.registrar("Excluiu produto: " + produtoSelecionado.getNome());
             limparCampos();
             carregarProdutos();
             produtoSelecionado = null;
@@ -339,6 +343,7 @@ public class ProdutosController {
         GeradorPDF.gerar(dao.listar());
 
         labelMensagem.setText("PDF gerado com sucesso!");
+        LogService.registrar("Exportou relatório PDF de produtos");
     }
 
     private void aplicarPermissoes() {
